@@ -1,0 +1,713 @@
+{
+	"info": {
+		"_postman_id": "978e2b1a-32e1-4301-9768-3cb17daa2e04",
+		"name": "Tool_Rental_API_Jenkins Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24607863"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"First Test\", () =>{\r",
+							"    console.log(response[\"status\"]);\r",
+							"    pm.expect(response.status).to.eql(\"UP\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Natalie1975!!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "nataliia.kliucharieva@alithya.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "dossierNom",
+							"value": "Nataliia Test",
+							"type": "text"
+						},
+						{
+							"key": "bureauId",
+							"value": "117",
+							"type": "text"
+						},
+						{
+							"key": "collegueId",
+							"value": "961",
+							"type": "text"
+						},
+						{
+							"key": "activiteId",
+							"value": "1003",
+							"type": "text"
+						},
+						{
+							"key": "dateOffset",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "start",
+							"value": "10:00",
+							"type": "text"
+						},
+						{
+							"key": "end",
+							"value": "10:45",
+							"type": "text"
+						},
+						{
+							"key": "etatId",
+							"value": "637",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "dateNaissance",
+							"value": "1999-01-01",
+							"type": "text"
+						},
+						{
+							"key": "phoneNumberTypeId",
+							"value": "797",
+							"type": "text"
+						},
+						{
+							"key": "numeroTelephone",
+							"value": "514-456-5050",
+							"type": "text"
+						},
+						{
+							"key": "numeroRamq",
+							"value": "TESN99500110",
+							"type": "text"
+						},
+						{
+							"key": "expirationRamq",
+							"value": "06/2020",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tools",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"category\");\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"const tools = response.filter((tool) => tool.inStock === true);\r",
+							"const tool = tools[0];\r",
+							"if (tool) {\r",
+							"    pm.globals.set(\"toolId\", tool.id);     \r",
+							"};\r",
+							"\r",
+							"pm.test(\"Tool Found\", () => {\r",
+							"    pm.expect(tool).to.be.an('object');\r",
+							"    pm.expect(tool.inStock).to.eql(true);\r",
+							"    pm.expect(tool.category).to.eql(pm.collectionVariables.get(\"category\"));\r",
+							"});\r",
+							"let trailer;\r",
+							"for (let tool of tools) {\r",
+							"    if(tool.name == \"Tilt Trailer 7,000 lbs.\") {\r",
+							"    trailer = tool;\r",
+							"    }\r",
+							"}\r",
+							"console.log(trailer);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tools?category={{category}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "available",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "inStock",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "{{category}}"
+						},
+						{
+							"key": "category",
+							"value": "plumbing",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single tool",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Check Tool\", function () {\r",
+							"    pm.expect(response.id).to.eql(pm.globals.get('toolId'));\r",
+							"    pm.expect(response[\"current-stock\"]).to.greaterThan(0);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Create new order\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tools/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tools",
+						":id"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "power-tools",
+							"disabled": true
+						},
+						{
+							"key": "user-manual",
+							"value": "true",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{toolId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"Postman\",\r\n   \"clientEmail\": \"nataliia.kliuchik11@example.com\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api-clients",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register API client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Create Test\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"accessToken\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"Postman\",\r\n   \"clientEmail\": \"nataliia.kliuchik@example.com\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api-clients",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"My Test\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response.orderId);\r",
+							"    pm.expect(response.created).to.eql(true);\r",
+							"    pm.globals.set(\"orderId\", response.orderId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"toolId\": {{toolId}},\r\n \"customerName\": \"{{$randomFullName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.globals.set(\"toolId\", response[0].toolId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"First Test\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"quantity\"]);\r",
+							"    pm.expect(response.quantity).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "power-tools",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", () => {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \r\n \"customerName\": \"{{$randomFirstName}} Verte\",\r\n \"comment\": \"Pick up never\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "power-tools",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "power-tools",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate order  deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cbe023c2a514ab2af3e9cd9b3b321c8593610dd622c80f6f289830cd049090d9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "power-tools",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://simple-tool-rental-api.glitch.me"
+		},
+		{
+			"key": "apiToken",
+			"value": "my token",
+			"type": "string"
+		},
+		{
+			"key": "category",
+			"value": "electric-generators",
+			"type": "string"
+		}
+	]
+}

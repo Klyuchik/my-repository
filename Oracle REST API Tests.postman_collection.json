@@ -1,0 +1,953 @@
+{
+	"info": {
+		"_postman_id": "09450041-e1e6-4abf-a2aa-0abb2a0208ba",
+		"name": "Oracle REST API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19754731"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://effx-dev2.fa.ca2.oraclecloud.com",
+					"protocol": "https",
+					"host": [
+						"effx-dev2",
+						"fa",
+						"ca2",
+						"oraclecloud",
+						"com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all payables invoices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"    pm.globals.set(\"oraclePayablesInvoicesNumber\", response.count);\r",
+							"});\r",
+							"let invoiceId;\r",
+							"for (let item in response.items) {\r",
+							"   if(response.items[item].InvoiceNumber == 710738) {\r",
+							"     invoiceId = response.items[item].InvoiceId\r",
+							"     console.log(invoiceId);\r",
+							"   }\r",
+							"    \r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/invoices",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"invoices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"\r",
+							"    pm.globals.set(\"oraclePayablesPaymentsNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/payablesPayments",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"payablesPayments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all payments process requests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"\r",
+							"    pm.globals.set(\"oraclePPRNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/paymentProcessRequests",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"paymentProcessRequests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all receivables invoices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"        pm.globals.set(\"oraclereceivablesInvoicesNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/receivablesInvoices",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"receivablesInvoices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all journals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"        pm.globals.set(\"oracleJournalsNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/journalBatches",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"journalBatches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all ledger balances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"        pm.globals.set(\"oracleJournalsNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/ledgerBalances?onlyData=true&finder=AccountGroupBalanceFinder;accountGroupName=Accounted,accountName=Building Rent,accountingPeriod=Jan-17,currency=CAD,ledgerName=ALITHYA CANADA INC.&fields=AccountGroupName,AccountName,LedgerName,Currency,CurrentAccountingPeriod,AccountCombination,CurrentPeriodBalance,AmountType",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"ledgerBalances"
+					],
+					"query": [
+						{
+							"key": "onlyData",
+							"value": "true"
+						},
+						{
+							"key": "finder",
+							"value": "AccountGroupBalanceFinder;accountGroupName=Accounted,accountName=Building Rent,accountingPeriod=Jan-17,currency=CAD,ledgerName=ALITHYA CANADA INC."
+						},
+						{
+							"key": "fields",
+							"value": "AccountGroupName,AccountName,LedgerName,Currency,CurrentAccountingPeriod,AccountCombination,CurrentPeriodBalance,AmountType"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all receipts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"\r",
+							"    pm.globals.set(\"oracleReceiptsNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleFinanceUrl}}/standardReceipts",
+					"host": [
+						"{{oracleFinanceUrl}}"
+					],
+					"path": [
+						"standardReceipts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all workers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"pm.test(\"Get count\", function () {\r",
+							"        console.log(response.count);\r",
+							"        pm.globals.set(\"oracleWorkersNumber\", response.count);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{oracleHcmUrl}}/workers",
+					"host": [
+						"{{oracleHcmUrl}}"
+					],
+					"path": [
+						"workers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Invoice",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "marie.beaumont@alithya.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Hello123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.oracle.adf.resourceitem+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n     \"InvoiceNumber\": \"710738\",\r\n    \"InvoiceCurrency\": \"CAD\",\r\n    \"InvoiceAmount\": 200.00,\r\n    \"InvoiceDate\": \"2018-11-25\",\r\n    \"BusinessUnit\": \"Alithya Canada BU\",\r\n    \"Supplier\": \"HURON ADVISORS CANADA LIMITED\",\r\n    \"SupplierSite\": \"MONTREAL\",\r\n    \"Requester\": null,\r\n    \"InvoiceGroup\": \"IP - PEC GTD Sept\",\r\n    \"Description\": \"Test Supplies\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{oracleUrl}}/invoices",
+					"host": [
+						"{{oracleUrl}}"
+					],
+					"path": [
+						"invoices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "groupe",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "forget",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://forget-qa.askida.lan:8080/medaudio/login?username=AXONQA&password=pass$77qa",
+					"protocol": "http",
+					"host": [
+						"forget-qa",
+						"askida",
+						"lan"
+					],
+					"port": "8080",
+					"path": [
+						"medaudio",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "AXONQA"
+						},
+						{
+							"key": "password",
+							"value": "pass$77qa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creation RDV",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "groupe",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "forget",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"dossierId\": \"22983\", \r\n\"dossierNom\": \"Martin Ouellet\", \r\n\"start\": \"2022-11-23 13:40\", \r\n\"end\": \"2022-11-23 14:40\", \r\n\"bureauId\": \"117\", \r\n\"collegueId\": \"961\", \r\n\"activiteId\": \"983\", \r\n\"etatId\": \"638\", \r\n\"remarque\": \"Test note\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{urlGF}}/agenda/evenement/create",
+					"host": [
+						"{{urlGF}}"
+					],
+					"path": [
+						"agenda",
+						"evenement",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Run execution Alithya Gotest",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Natalie75$$",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "nataliia.kliucharieva@alithya.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{urlGoTest}}/execution/run?projectName=GroupeForgetMigrationFrontEnd&testPlanName=MedAudioPhaseMigrationFRONTENDTestsfonctionnelsauto&functionalityName=ConfigurationBD&scenarioName=ConfigurationBD",
+					"host": [
+						"{{urlGoTest}}"
+					],
+					"path": [
+						"execution",
+						"run"
+					],
+					"query": [
+						{
+							"key": "projectName",
+							"value": "GroupeForgetMigrationFrontEnd"
+						},
+						{
+							"key": "testPlanName",
+							"value": "MedAudioPhaseMigrationFRONTENDTestsfonctionnelsauto"
+						},
+						{
+							"key": "functionalityName",
+							"value": "ConfigurationBD"
+						},
+						{
+							"key": "scenarioName",
+							"value": "ConfigurationBD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get execution status by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Execution status is completed\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"status\"]);\r",
+							"    pm.expect(response.status).to.eql(\"COMPLETED\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Execution results is successed\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"results\"]);\r",
+							"    pm.expect(response.results).to.eql(\"SUCCESS\");\r",
+							"    pm.expect(response.passedCount).to.eql(1);\r",
+							"    pm.expect(response.failedCount).to.eql(0);\r",
+							"    pm.expect(response.passedPercentage).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Natalie75$$",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "nataliia.kliucharieva@alithya.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlGoTest}}/execution/get-status?executionId=14232",
+					"host": [
+						"{{urlGoTest}}"
+					],
+					"path": [
+						"execution",
+						"get-status"
+					],
+					"query": [
+						{
+							"key": "executionId",
+							"value": "14232"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find last execution Alithya Gotest  completed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Execution status is completed\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"status\"]);\r",
+							"    pm.expect(response.status).to.eql(\"COMPLETED\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Execution results is successed\", () =>{\r",
+							"    const response = pm.response.json();\r",
+							"    console.log(response[\"results\"]);\r",
+							"    pm.expect(response.results).to.eql(\"SUCCESS\");\r",
+							"    pm.expect(response.passedCount).to.eql(1);\r",
+							"    pm.expect(response.failedCount).to.eql(0);\r",
+							"    pm.expect(response.passedPercentage).to.eql(100);\r",
+							"    console.log(response[\"durationInHumanReadableHMS\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Natalie75$$",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "nataliia.kliucharieva@alithya.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlGoTest}}/execution/find-last-completed?projectName=GroupeForgetMigrationFrontEnd&testPlanName=MedAudioPhaseMigrationFRONTENDTestsfonctionnelsauto&functionalityName=ConfigurationBD&scenarioName=ConfigurationBD",
+					"host": [
+						"{{urlGoTest}}"
+					],
+					"path": [
+						"execution",
+						"find-last-completed"
+					],
+					"query": [
+						{
+							"key": "projectName",
+							"value": "GroupeForgetMigrationFrontEnd"
+						},
+						{
+							"key": "testPlanName",
+							"value": "MedAudioPhaseMigrationFRONTENDTestsfonctionnelsauto"
+						},
+						{
+							"key": "functionalityName",
+							"value": "ConfigurationBD"
+						},
+						{
+							"key": "scenarioName",
+							"value": "ConfigurationBD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find all running execution Alithya Gotest",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Natalie75$$",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "nataliia.kliucharieva@alithya.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlGoTest}}/execution/find-all-running",
+					"host": [
+						"{{urlGoTest}}"
+					],
+					"path": [
+						"execution",
+						"find-all-running"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "urlGoTest",
+			"value": "AlithyaGoTest"
+		},
+		{
+			"key": "password",
+			"value": "my password",
+			"type": "string"
+		},
+		{
+			"key": "login",
+			"value": "my login",
+			"type": "string"
+		},
+		{
+			"key": "urlGF",
+			"value": "http://forget-qa.askida.lan:8080/backmedaudio/api"
+		},
+		{
+			"key": "apiToken",
+			"value": "tokenGF",
+			"type": "string"
+		},
+		{
+			"key": "oracleFinanceUrl",
+			"value": "fscmRestApi/resources/11.13.18.05"
+		},
+		{
+			"key": "oracleHcmUrl",
+			"value": "https://effx-dev2.fa.ca2.oraclecloud.com//hcmRestApi/resources/11.13.18.05",
+			"type": "string"
+		},
+		{
+			"key": "invoicesNumber",
+			"value": ""
+		}
+	]
+}
